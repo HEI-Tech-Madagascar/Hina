@@ -1,4 +1,4 @@
-import supabase from "./client";
+import supabase from './client';
 
 export async function getSession() {
   try {
@@ -13,7 +13,7 @@ export async function getSession() {
 
     return session;
   } catch (error) {
-    console.error("Error fetching session:", error);
+    console.error('Error fetching session:', error);
     return null;
   }
 }
