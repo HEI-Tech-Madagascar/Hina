@@ -1,7 +1,7 @@
-import supabase from '../supabase/client';
+import supabase from "../supabase/client";
 
 export async function signUp(
-  displayName: string,
+  username: string,
   firstName: string,
   lastName: string,
   email: string,
@@ -9,15 +9,16 @@ export async function signUp(
   std: string
 ) {
   try {
-    const { data: stdCheck, error: stdError } = await supabase.from('dummy-user').select('std').eq('std', std).single();
+    const { data: stdCheck } = await supabase
+      .from("dummy-user")
+      .select("std")
+      .eq("std", std)
+      .single();
 
     if (stdCheck) {
-      throw new Error('This STD is already registered');
+      throw new Error("This STD is already registered");
     }
 
-    if (stdError) {
-      throw new Error('Error while trying to sign in with STD');
-    }
 
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
@@ -26,8 +27,9 @@ export async function signUp(
         data: {
           first_name: firstName,
           last_name: lastName,
-          display_name: displayName,
+          display_name: `${firstName} ${lastName}`,
           std: std.toUpperCase(),
+          username,
         },
       },
     });
@@ -36,20 +38,24 @@ export async function signUp(
       throw new Error(`Error while signing up: ${signUpError.message}`);
     }
 
-    const { error: registerUserInDBerror } = await supabase.from('dummy-user').insert({
-      id: data.user?.id,
-      display_name: displayName,
-      first_name: firstName,
-      last_name: lastName,
-      email,
-      std: std.toUpperCase(),
-    });
+    const { error: registerUserInDBerror } = await supabase
+      .from("dummy-user")
+      .insert({
+        id: data.user?.id,
+        username,
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        std: std.toUpperCase(),
+      });
 
     if (registerUserInDBerror) {
-      throw new Error(`Error registering user: ${registerUserInDBerror.message}`);
+      throw new Error(
+        `Error registering user: ${registerUserInDBerror.message}`
+      );
     }
   } catch (error) {
-    console.error('Sign up error:', error);
+    console.error("Sign up error:", error);
     throw error;
   }
 }
@@ -65,17 +71,21 @@ export async function signInWithEmail(email: string, password: string) {
       throw new Error(error.message);
     }
   } catch (error) {
-    console.error('Sign in error:', error);
+    console.error("Sign in error:", error);
     throw error;
   }
 }
 
 export async function signInWithStd(std: string, password: string) {
   try {
-    const { data, error: userError } = await supabase.from('dummy-user').select('email').ilike('std', std).single();
+    const { data, error: userError } = await supabase
+      .from("dummy-user")
+      .select("email")
+      .ilike("std", std)
+      .single();
 
     if (userError || !data) {
-      throw new Error('STD not found');
+      throw new Error("STD not found");
     }
 
     const { error } = await supabase.auth.signInWithPassword({
@@ -87,7 +97,7 @@ export async function signInWithStd(std: string, password: string) {
       throw new Error(error.message);
     }
   } catch (error) {
-    console.error('Sign in error:', error);
+    console.error("Sign in error:", error);
     throw error;
   }
 }
@@ -95,9 +105,9 @@ export async function signInWithStd(std: string, password: string) {
 export async function signOut() {
   try {
     const { error } = await supabase.auth.signOut();
-    if (error) throw new Error('Error signing out: ' + error.message);
+    if (error) throw new Error("Error signing out: " + error.message);
   } catch (error) {
-    console.error('Error signing out:', error);
+    console.error("Error signing out:", error);
     throw error;
   }
 }
