@@ -117,11 +117,8 @@ const AuthForm = () => {
               />
             </div>
             <div>
-              <label
-                htmlFor="std"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                STD (Must be unique)
+              <label htmlFor="std" className="block text-sm font-medium text-gray-700 mb-1">
+                STD
               </label>
               <input
                 type="text"
