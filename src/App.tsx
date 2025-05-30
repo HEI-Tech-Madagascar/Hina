@@ -1,3 +1,10 @@
+import AuthForm from "./components/AuthForm";
+
 export default function App() {
-  return <h1>App</h1>;
+  return (
+    <div>
+      {/* <h1 className="text-pink-500">Helloooo</h1> */}
+      <AuthForm />
+    </div>
+  );
 }

@@ -38,13 +38,13 @@ export async function signIn(email: string, password: string) {
       email,
       password,
     });
-    console.log("You are signing in");
+    console.log('You are signing in');
     if (error) {
       throw new Error(`${error.message}`);
     }
-    console.log("Sign in successful:", data);
+    console.log('Sign in successful:', data);
   } catch (error) {
-    console.error("Sign in error:", error);
+    console.error('Sign in error:', error);
     throw error;
   }
 }
@@ -52,10 +52,10 @@ export async function signIn(email: string, password: string) {
 export async function signOut() {
   try {
     const { error } = await supabase.auth.signOut();
-    if (error) throw new Error("Error while signing out : " + error);
+    if (error) throw new Error('Error while signing out : ' + error);
 
-    console.log("Sign out successful");
+    console.log('Sign out successful');
   } catch (error) {
-    console.error("Error signing out:", error);
+    console.error('Error signing out:', error);
   }
 }
