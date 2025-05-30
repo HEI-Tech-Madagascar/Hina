@@ -1,24 +1,19 @@
-import { useState } from "react";
-import {
-  signUp,
-  signInWithEmail,
-  signInWithStd,
-  signOut,
-} from "../lib/auth/actions";
+import { useState } from 'react';
+import { signUp, signInWithEmail, signInWithStd, signOut } from '../lib/auth/actions';
 
 const AuthForm = () => {
-  const [authMode, setAuthMode] = useState<"signin" | "signup">("signin");
-  const [loginMethod, setLoginMethod] = useState<"email" | "std">("email");
+  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
+  const [loginMethod, setLoginMethod] = useState<'email' | 'std'>('email');
   const [formData, setFormData] = useState({
-    displayName: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    std: "",
+    displayName: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    std: '',
   });
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState({ text: "", isError: false });
+  const [message, setMessage] = useState({ text: '', isError: false });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -31,10 +26,10 @@ const AuthForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setMessage({ text: "", isError: false });
+    setMessage({ text: '', isError: false });
 
     try {
-      if (authMode === "signup") {
+      if (authMode === 'signup') {
         await signUp(
           formData.displayName,
           formData.lastName,
@@ -44,23 +39,20 @@ const AuthForm = () => {
           formData.std.toUpperCase()
         );
         setMessage({
-          text: "Sign up successful! Check your email for confirmation.",
+          text: 'Sign up successful! Check your email for confirmation.',
           isError: false,
         });
       } else {
-        if (loginMethod === "email") {
+        if (loginMethod === 'email') {
           await signInWithEmail(formData.email, formData.password);
         } else {
-          await signInWithStd(
-            formData.std.toUpperCase().trim(),
-            formData.password
-          );
+          await signInWithStd(formData.std.toUpperCase().trim(), formData.password);
         }
-        setMessage({ text: "Sign in successful!", isError: false });
+        setMessage({ text: 'Sign in successful!', isError: false });
       }
     } catch (error) {
       setMessage({
-        text: error instanceof Error ? error.message : "An error occurred",
+        text: error instanceof Error ? error.message : 'An error occurred',
         isError: true,
       });
     } finally {
@@ -69,41 +61,32 @@ const AuthForm = () => {
   };
 
   const toggleAuthMode = () => {
-    setAuthMode((prev) => (prev === "signin" ? "signup" : "signin"));
-    setMessage({ text: "", isError: false });
+    setAuthMode((prev) => (prev === 'signin' ? 'signup' : 'signin'));
+    setMessage({ text: '', isError: false });
   };
 
   const toggleLoginMethod = () => {
-    setLoginMethod((prev) => (prev === "email" ? "std" : "email"));
-    setMessage({ text: "", isError: false });
+    setLoginMethod((prev) => (prev === 'email' ? 'std' : 'email'));
+    setMessage({ text: '', isError: false });
   };
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-center mb-6">
-        {authMode === "signin" ? "Sign In" : "Sign Up"}
-      </h2>
+      <h2 className="text-2xl font-bold text-center mb-6">{authMode === 'signin' ? 'Sign In' : 'Sign Up'}</h2>
 
       {message.text && (
         <div
-          className={`p-3 mb-4 rounded ${
-            message.isError
-              ? "bg-red-100 text-red-700"
-              : "bg-green-100 text-green-700"
-          }`}
+          className={`p-3 mb-4 rounded ${message.isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}
         >
           {message.text}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {authMode === "signup" ? (
+        {authMode === 'signup' ? (
           <>
             <div>
-              <label
-                htmlFor="displayName"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label htmlFor="displayName" className="block text-sm font-medium text-gray-700 mb-1">
                 Display Name
               </label>
               <input
@@ -131,10 +114,7 @@ const AuthForm = () => {
               />
             </div>
             <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
                 First name
               </label>
               <input
@@ -148,10 +128,7 @@ const AuthForm = () => {
               />
             </div>
             <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
                 Last name
               </label>
               <input
@@ -165,10 +142,7 @@ const AuthForm = () => {
               />
             </div>
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                 Email
               </label>
               <input
@@ -188,32 +162,21 @@ const AuthForm = () => {
               <button
                 type="button"
                 onClick={toggleLoginMethod}
-                className={`px-4 py-2 rounded-md ${
-                  loginMethod === "email"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-200"
-                }`}
+                className={`px-4 py-2 rounded-md ${loginMethod === 'email' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
               >
                 Email
               </button>
               <button
                 type="button"
                 onClick={toggleLoginMethod}
-                className={`px-4 py-2 rounded-md ${
-                  loginMethod === "std"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-200"
-                }`}
+                className={`px-4 py-2 rounded-md ${loginMethod === 'std' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
               >
                 STD
               </button>
             </div>
-            {loginMethod === "email" ? (
+            {loginMethod === 'email' ? (
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                   Email
                 </label>
                 <input
@@ -228,10 +191,7 @@ const AuthForm = () => {
               </div>
             ) : (
               <div>
-                <label
-                  htmlFor="std"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+                <label htmlFor="std" className="block text-sm font-medium text-gray-700 mb-1">
                   STD
                 </label>
                 <input
@@ -249,10 +209,7 @@ const AuthForm = () => {
         )}
 
         <div>
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
             Password
           </label>
           <input
@@ -270,23 +227,17 @@ const AuthForm = () => {
           type="submit"
           disabled={loading}
           className={`w-full py-2 px-4 rounded-md text-white font-medium ${
-            loading
-              ? "bg-blue-400 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
+            loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
           } transition-colors`}
         >
-          {loading
-            ? "Loading..."
-            : authMode === "signin"
-            ? "Sign In"
-            : "Sign Up"}
+          {loading ? 'Loading...' : authMode === 'signin' ? 'Sign In' : 'Sign Up'}
         </button>
       </form>
 
       <div className="mt-4 text-center">
-        {authMode === "signin" ? (
+        {authMode === 'signin' ? (
           <p className="text-sm text-gray-600">
-            Don't have an account?{" "}
+            Don't have an account?{' '}
             <button
               onClick={toggleAuthMode}
               className="text-blue-600 hover:text-blue-800 font-medium focus:outline-none"
@@ -296,7 +247,7 @@ const AuthForm = () => {
           </p>
         ) : (
           <p className="text-sm text-gray-600">
-            Already have an account?{" "}
+            Already have an account?{' '}
             <button
               onClick={toggleAuthMode}
               className="text-blue-600 hover:text-blue-800 font-medium focus:outline-none"
