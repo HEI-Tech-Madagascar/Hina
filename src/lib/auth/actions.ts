@@ -8,6 +8,20 @@ export async function signUp(
   std: string
 ) {
   try {
+    const { data: stdCheck, error: stdError } = await supabase
+      .from("dummy-user")
+      .select("std")
+      .eq("std", std)
+      .single();
+
+    if (stdCheck) {
+      throw new Error("This STD is already registered");
+    }
+
+    if (stdError) {
+      throw new Error("Error while trying to sign in with STD");
+    }
+
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
@@ -15,15 +29,13 @@ export async function signUp(
         data: {
           username,
           display_name: displayName,
-          std,
+          std: std.toUpperCase(),
         },
       },
     });
 
     if (signUpError) {
-      throw new Error(
-        `Error while signing up user in supabase : ${signUpError}`
-      );
+      throw new Error(`Error while signing up: ${signUpError.message}`);
     }
 
     const { error: registerUserInDBerror } = await supabase
@@ -33,30 +45,56 @@ export async function signUp(
         display_name: displayName,
         username,
         email,
-        std,
+        std: std.toUpperCase(),
       });
 
     if (registerUserInDBerror) {
       throw new Error(
-        `Error while registering the user in the database : ${registerUserInDBerror}`
+        `Error registering user: ${registerUserInDBerror.message}`
       );
     }
   } catch (error) {
-    console.error("Sign up error : ", error);
+    console.error("Sign up error:", error);
+    throw error;
   }
 }
 
-export async function signIn(email: string, password: string) {
+export async function signInWithEmail(email: string, password: string) {
   try {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    console.log("You are signing in");
+
     if (error) {
-      throw new Error(`${error.message}`);
+      throw new Error(error.message);
     }
-    console.log("Sign in successful:", data);
+  } catch (error) {
+    console.error("Sign in error:", error);
+    throw error;
+  }
+}
+
+export async function signInWithStd(std: string, password: string) {
+  try {
+    const { data, error: userError } = await supabase
+      .from("dummy-user")
+      .select("email")
+      .ilike("std", std)
+      .single();
+
+    if (userError || !data) {
+      throw new Error("STD not found");
+    }
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: data.email,
+      password,
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
   } catch (error) {
     console.error("Sign in error:", error);
     throw error;
@@ -66,10 +104,9 @@ export async function signIn(email: string, password: string) {
 export async function signOut() {
   try {
     const { error } = await supabase.auth.signOut();
-    if (error) throw new Error("Error while signing out : " + error);
-
-    console.log("Sign out successful");
+    if (error) throw new Error("Error signing out: " + error.message);
   } catch (error) {
     console.error("Error signing out:", error);
+    throw error;
   }
 }

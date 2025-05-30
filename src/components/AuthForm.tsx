@@ -1,8 +1,14 @@
 import { useState } from "react";
-import { signUp, signIn, signOut } from "../lib/auth/actions";
+import {
+  signUp,
+  signInWithEmail,
+  signInWithStd,
+  signOut,
+} from "../lib/auth/actions";
 
 const AuthForm = () => {
   const [authMode, setAuthMode] = useState<"signin" | "signup">("signin");
+  const [loginMethod, setLoginMethod] = useState<"email" | "std">("email");
   const [formData, setFormData] = useState({
     displayName: "",
     username: "",
@@ -33,14 +39,21 @@ const AuthForm = () => {
           formData.username,
           formData.email,
           formData.password,
-          formData.std.toLocaleUpperCase()
+          formData.std.toUpperCase()
         );
         setMessage({
           text: "Sign up successful! Check your email for confirmation.",
           isError: false,
         });
       } else {
-        await signIn(formData.email, formData.password);
+        if (loginMethod === "email") {
+          await signInWithEmail(formData.email, formData.password);
+        } else {
+          await signInWithStd(
+            formData.std.toUpperCase().trim(),
+            formData.password
+          );
+        }
         setMessage({ text: "Sign in successful!", isError: false });
       }
     } catch (error) {
@@ -55,6 +68,11 @@ const AuthForm = () => {
 
   const toggleAuthMode = () => {
     setAuthMode((prev) => (prev === "signin" ? "signup" : "signin"));
+    setMessage({ text: "", isError: false });
+  };
+
+  const toggleLoginMethod = () => {
+    setLoginMethod((prev) => (prev === "email" ? "std" : "email"));
     setMessage({ text: "", isError: false });
   };
 
@@ -77,7 +95,7 @@ const AuthForm = () => {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {authMode === "signup" && (
+        {authMode === "signup" ? (
           <>
             <div>
               <label
@@ -96,21 +114,23 @@ const AuthForm = () => {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <label
-              htmlFor="std"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              STD
-            </label>
-            <input
-              type="text"
-              id="std"
-              name="std"
-              value={formData.std}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <div>
+              <label
+                htmlFor="std"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                STD (Must be unique)
+              </label>
+              <input
+                type="text"
+                id="std"
+                name="std"
+                value={formData.std}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
             <div>
               <label
                 htmlFor="username"
@@ -128,26 +148,89 @@ const AuthForm = () => {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="flex justify-center mb-4">
+              <button
+                type="button"
+                onClick={toggleLoginMethod}
+                className={`px-4 py-2 rounded-md ${
+                  loginMethod === "email"
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200"
+                }`}
+              >
+                Email
+              </button>
+              <button
+                type="button"
+                onClick={toggleLoginMethod}
+                className={`px-4 py-2 rounded-md ${
+                  loginMethod === "std"
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200"
+                }`}
+              >
+                STD
+              </button>
+            </div>
+            {loginMethod === "email" ? (
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            ) : (
+              <div>
+                <label
+                  htmlFor="std"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  STD
+                </label>
+                <input
+                  type="text"
+                  id="std"
+                  name="std"
+                  value={formData.std}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            )}
           </>
         )}
-
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
 
         <div>
           <label
@@ -177,7 +260,7 @@ const AuthForm = () => {
           } transition-colors`}
         >
           {loading
-            ? "loading..."
+            ? "Loading..."
             : authMode === "signin"
             ? "Sign In"
             : "Sign Up"}
