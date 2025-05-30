@@ -37,8 +37,9 @@ const AuthForm = () => {
       if (authMode === "signup") {
         await signUp(
           formData.username,
-          formData.lastName,
+
           formData.firstName,
+          formData.lastName,
           formData.email,
           formData.password,
           formData.std.toUpperCase()
