@@ -13,14 +13,28 @@ const HeroSection = () => (
 );
 
 const FormSection = ({ isLogin }: { isLogin: boolean }) => (
-  <div className="space-y-6">
-    <div className="transform transition-all duration-300 ease-in-out">
-      <div className={isLogin ? 'animate-slide-in-left' : 'animate-slide-in-right'}>
-        {isLogin ? <LoginForm /> : <SignUpForm />}
+  <>
+    <div className="space-y-6">
+      <div className="transform transition-all duration-300 ease-in-out">
+        <div className={isLogin ? 'animate-slide-in-left' : 'animate-slide-in-right'}>
+          {isLogin ? <LoginForm /> : <SignUpForm />}
+        </div>
+      </div>
+      <AuthToggle />
+    </div>
+    <div className="text-center mt-8 text-xs text-slate-500 animate-fade-in">
+      <p>En vous connectant, vous acceptez nos</p>
+      <div className="flex items-center justify-center gap-1 mt-1 flex-wrap">
+        <button className="hover:text-azure-600 transition-colors underline-offset-2 hover:underline">
+          Conditions d'utilisation
+        </button>
+        <span>et notre</span>
+        <button className="hover:text-azure-600 transition-colors underline-offset-2 hover:underline">
+          Politique de confidentialité
+        </button>
       </div>
     </div>
-    <AuthToggle />
-  </div>
+  </>
 );
 
 const LeftPanel = ({ isLogin }: { isLogin: boolean }) => (
