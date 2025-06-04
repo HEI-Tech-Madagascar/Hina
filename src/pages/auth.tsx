@@ -1,4 +1,5 @@
-import { AuthToggle, LoginForm, SignUpForm } from '@/components/auth';
+import { AuthToggle, LoginForm, SignupForm } from '@/components/auth';
+import { useState } from 'react';
 
 const HeroSection = () => (
   <div className="text-center mb-8 animate-fade-in">
@@ -12,32 +13,42 @@ const HeroSection = () => (
   </div>
 );
 
-const FormSection = ({ isLogin }: { isLogin: boolean }) => (
-  <>
-    <div className="space-y-6">
-      <div className="transform transition-all duration-300 ease-in-out">
-        <div className={isLogin ? 'animate-slide-in-left' : 'animate-slide-in-right'}>
-          {isLogin ? <LoginForm /> : <SignUpForm />}
+const FormSection = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const [isLoading] = useState(false);
+
+  const handleToggle = () => {
+    if (isLoading) return;
+    setIsLogin(!isLogin);
+  };
+
+  return (
+    <>
+      <div className="space-y-6">
+        <div className="transform transition-all duration-300 ease-in-out">
+          <div className={isLogin ? 'animate-slide-in-left' : 'animate-slide-in-right'}>
+            {isLogin ? <LoginForm /> : <SignupForm />}
+          </div>
+        </div>
+        <AuthToggle isLogin={isLogin} onToggle={handleToggle} isLoading={isLoading} />
+      </div>
+      <div className="text-center mt-8 text-xs text-slate-500 animate-fade-in">
+        <p>En vous connectant, vous acceptez nos</p>
+        <div className="flex items-center justify-center gap-1 mt-1 flex-wrap">
+          <button className="hover:text-azure-600 transition-colors underline-offset-2 hover:underline">
+            Conditions d'utilisation
+          </button>
+          <span>et notre</span>
+          <button className="hover:text-azure-600 transition-colors underline-offset-2 hover:underline">
+            Politique de confidentialité
+          </button>
         </div>
       </div>
-      <AuthToggle />
-    </div>
-    <div className="text-center mt-8 text-xs text-slate-500 animate-fade-in">
-      <p>En vous connectant, vous acceptez nos</p>
-      <div className="flex items-center justify-center gap-1 mt-1 flex-wrap">
-        <button className="hover:text-azure-600 transition-colors underline-offset-2 hover:underline">
-          Conditions d'utilisation
-        </button>
-        <span>et notre</span>
-        <button className="hover:text-azure-600 transition-colors underline-offset-2 hover:underline">
-          Politique de confidentialité
-        </button>
-      </div>
-    </div>
-  </>
-);
+    </>
+  );
+};
 
-const LeftPanel = ({ isLogin }: { isLogin: boolean }) => (
+const LeftPanel = () => (
   <div className="flex-1 flex items-center justify-center p-6 lg:p-8 bg-gradient-to-br from-azure-50/50 via-ocean-50/30 to-slate-100/50 relative">
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <div className="absolute -top-20 -left-16 w-40 h-40 lg:w-80 lg:h-80 bg-azure-200/15 rounded-full blur-3xl" />
@@ -45,7 +56,7 @@ const LeftPanel = ({ isLogin }: { isLogin: boolean }) => (
     </div>
     <div className="relative w-full max-w-md">
       <HeroSection />
-      <FormSection isLogin={isLogin} />
+      <FormSection />
     </div>
   </div>
 );
@@ -68,10 +79,10 @@ const RightPanel = () => (
         </div>
         <div className="space-y-6">
           <h2 className="text-4xl xl:text-5xl font-bold leading-tight">
-            Bienvenue sur Hina
-            <span className="block text-azure-200">Votre espace étudiante tout-en-un</span>
+            Votre espace étudiante
+            <span className="block text-azure-200">tout-en-un</span>
           </h2>
-          <p className="text-azure-100 text-lg xl:text-xl leading-relaxed opacity-90">
+          <p className="text-azure-100 text-lg leading-relaxed opacity-90">
             Accédez aux actualités du club HEI Tech Madagascar, gérez vos projets, vos tâches et collaborez avec vos
             camarades dans un environnement moderne et intuitif.
           </p>
@@ -90,11 +101,9 @@ const RightPanel = () => (
 );
 
 export const Auth = () => {
-  const isLogin = true;
-
   return (
     <section className="min-h-screen flex">
-      <LeftPanel isLogin={isLogin} />
+      <LeftPanel />
       <RightPanel />
     </section>
   );
