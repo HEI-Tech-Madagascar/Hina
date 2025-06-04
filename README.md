@@ -22,15 +22,15 @@ npm run dev
 
 ## Configuration
 
-Before running the application, copy the `.env.template` file to `.env` in the project root and add your Supabase credentials:
+Before running the application, copy the `.env.template` file to `.env` or `.env.local` in the project root and add your Supabase credentials:
 
-
-```env
-#.env file
+```bash
+#.env or .env.local file
 
 VITE_SUPABASE_URL=your-supabase-url
-VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+VITE_SUPABASE_KEY=your-supabase-key
 ```
 
 Replace `your-supabase-url` and `your-supabase-anon-key` with the values from your Supabase project.
+
 ### Happy coding 🎈
