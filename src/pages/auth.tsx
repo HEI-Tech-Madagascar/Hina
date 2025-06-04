@@ -75,7 +75,7 @@ const RightPanel = () => (
   </article>
 );
 
-export default function Auth() {
+export const Auth = () => {
   const isLogin = true;
 
   return (
@@ -84,4 +84,4 @@ export default function Auth() {
       <RightPanel />
     </section>
   );
-}
+};
