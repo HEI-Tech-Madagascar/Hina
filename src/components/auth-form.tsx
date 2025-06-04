@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { signInWithEmail, signInWithStd, signOut, signUp } from '../lib/auth/actions';
+import { signInWithEmail, signInWithStd, signOut, signUp } from '@/lib/auth/actions';
 
 const AuthForm = () => {
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');

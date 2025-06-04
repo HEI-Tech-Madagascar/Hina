@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router';
-import Login from './pages/login';
-import Home from './pages/home';
-import Auth from './pages/auth';
+import Login from '@/pages/login';
+import Home from '@/pages/home';
+import Auth from '@/pages/auth';
 
 export default function App() {
   return (
