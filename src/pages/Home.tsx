@@ -4,7 +4,7 @@ import AnnouncementCard from '../components/AnnouncementCard';
 
 export default function Home() {
   return (
-    <div>
+    <div className="bg-[#171a1f]">
       <HomeHeader />
       <SideBar />
       <AnnouncementCard />
