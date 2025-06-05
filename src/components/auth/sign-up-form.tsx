@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Eye, EyeOff, Check } from 'lucide-react';
+import { signUp } from '@/lib/auth/actions.ts';
 
 type SignupFormProps = {
   onSuccess?: () => void;
@@ -17,7 +18,7 @@ const signupSchema = z
   .object({
     firstName: z.string().min(2, 'Prénom trop court (min. 2 caractères)'),
     lastName: z.string().min(2, 'Nom trop court (min. 2 caractères)'),
-    std: z.string().min(3, 'STD doit contenir au moins 3 caractères'),
+    std: z.string().min(8, 'STD doit être au format STDXXXXX'),
     username: z
       .string()
       .min(3, "Nom d'utilisateur trop court")
@@ -66,12 +67,28 @@ export const SignupForm: FC<SignupFormProps> = ({ onSuccess }) => {
   const onSubmit = async (data: SignupFormData) => {
     setGeneralError('');
     try {
-      await new Promise((res) => setTimeout(res, 2000));
-      if (Math.random() > 0.8) throw new Error("Email ou nom d'utilisateur déjà utilisé");
-      console.log('Inscription réussie', data);
+      await signUp(data.username, data.firstName, data.lastName, data.email, data.password, data.std.toUpperCase());
       onSuccess?.();
     } catch (err) {
-      setGeneralError(err instanceof Error ? err.message : 'Erreur lors de l’inscription');
+      console.error('Erreur lors de l’inscription:', err);
+
+      let rawMessage = 'Une erreur est survenue lors de l’inscription';
+
+      if (err instanceof Error) {
+        rawMessage = err.message;
+      } else if (typeof err === 'string') {
+        rawMessage = err;
+      } else if (typeof err === 'object' && err !== null && 'message' in err) {
+        rawMessage = String((err as any).message);
+      }
+
+      if (rawMessage.toLowerCase().includes('email')) {
+        setGeneralError('Cette adresse email est déjà utilisée.');
+      } else if (rawMessage.toLowerCase().includes('username')) {
+        setGeneralError("Ce nom d'utilisateur est déjà pris.");
+      } else {
+        setGeneralError(rawMessage);
+      }
     }
   };
 

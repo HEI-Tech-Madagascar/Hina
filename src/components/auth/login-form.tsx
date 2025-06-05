@@ -17,6 +17,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signInWithEmail, signInWithStd } from '@/lib/auth/actions.ts';
 
 const loginSchema = z
   .object({
@@ -86,6 +87,7 @@ const PasswordField = ({
 export const LoginForm = () => {
   const [loginType, setLoginType] = useState<'email' | 'std'>('email');
   const [showPassword, setShowPassword] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const {
     register,
@@ -95,9 +97,24 @@ export const LoginForm = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: LoginFormValues) => {
-    const type = data.email ? 'email' : 'std';
-    console.log(`Connexion via ${type}`, data);
+  const onSubmit = async (data: LoginFormValues) => {
+    setServerError(null);
+    try {
+      if (loginType === 'email' && !data.email) {
+        throw new Error('Adresse email requise');
+      }
+      if (loginType === 'std' && !data.std) {
+        throw new Error('Identifiant STD requis');
+      }
+
+      if (loginType === 'email') {
+        await signInWithEmail(data.email!, data.password);
+      } else {
+        await signInWithStd(data.std!, data.password);
+      }
+    } catch (err: any) {
+      setServerError(err.message || 'Une erreur est survenue. Veuillez réessayer.');
+    }
   };
 
   return (
@@ -143,6 +160,8 @@ export const LoginForm = () => {
                 show={showPassword}
                 toggle={() => setShowPassword((s) => !s)}
               />
+
+              {serverError && <p className="text-xs text-red-600 text-center">{serverError}</p>}
 
               <Button
                 type="submit"
