@@ -9,7 +9,7 @@ export async function signUp(
   std: string
 ) {
   try {
-    const { data: stdCheck } = await supabase.from('dummy-user').select('std').eq('std', std).single();
+    const { data: stdCheck } = await supabase.from('dummy_user').select('std').eq('std', std).single();
 
     if (stdCheck) {
       throw new Error('This STD is already registered');
@@ -33,7 +33,7 @@ export async function signUp(
       throw new Error(`Error while signing up: ${signUpError.message}`);
     }
 
-    const { error: registerUserInDBerror } = await supabase.from('dummy-user').insert({
+    const { error: registerUserInDBerror } = await supabase.from('dummy_user').insert({
       id: data.user?.id,
       username,
       first_name: firstName,
@@ -69,7 +69,7 @@ export async function signInWithEmail(email: string, password: string) {
 
 export async function signInWithStd(std: string, password: string) {
   try {
-    const { data, error: userError } = await supabase.from('dummy-user').select('email').ilike('std', std).single();
+    const { data, error: userError } = await supabase.from('dummy_user').select('email').ilike('std', std).single();
 
     if (userError || !data) {
       throw new Error('STD not found');
