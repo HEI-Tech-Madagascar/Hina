@@ -4,10 +4,12 @@ import AnnouncementCard from '../components/AnnouncementCard';
 
 export default function Home() {
   return (
-    <div className="bg-[#171a1f]">
+    <div className="bg-[#171a1f] flex flex-col">
       <HomeHeader />
-      <SideBar />
-      <AnnouncementCard />
+      <div>
+        <SideBar />
+        <AnnouncementCard />
+      </div>
     </div>
   );
 }
