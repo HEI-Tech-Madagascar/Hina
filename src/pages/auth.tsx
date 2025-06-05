@@ -1,5 +1,7 @@
 import { AuthToggle, LoginForm, SignupForm } from '@/components/auth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getSession } from '@/lib/supabase/server.ts';
+import { useNavigate } from 'react-router';
 
 const HeroSection = () => (
   <div className="text-center mb-8 animate-fade-in">
@@ -16,6 +18,7 @@ const HeroSection = () => (
 const FormSection = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleToggle = () => {
     if (isLoading) return;
@@ -27,7 +30,7 @@ const FormSection = () => {
       <div className="space-y-6">
         <div className="transform transition-all duration-300 ease-in-out">
           <div className={isLogin ? 'animate-slide-in-left' : 'animate-slide-in-right'}>
-            {isLogin ? <LoginForm /> : <SignupForm />}
+            {isLogin ? <LoginForm onSuccess={() => navigate('/home')} /> : <SignupForm />}
           </div>
         </div>
         <AuthToggle isLogin={isLogin} onToggle={handleToggle} isLoading={isLoading} />
@@ -101,6 +104,16 @@ const RightPanel = () => (
 );
 
 export const Auth = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getSession().then((session) => {
+      if (session?.user) {
+        navigate('/home', { replace: true });
+      }
+    });
+  }, []);
+
   return (
     <section className="min-h-screen flex">
       <LeftPanel />

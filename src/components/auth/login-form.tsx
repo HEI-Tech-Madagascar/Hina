@@ -17,7 +17,11 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signInWithEmail, signInWithStd } from '@/lib/auth/actions.ts';
+import { signInWithEmail, signInWithStd } from '@/lib/auth/actions';
+
+type LoginFormProps = {
+  onSuccess?: () => void;
+};
 
 const loginSchema = z
   .object({
@@ -84,7 +88,7 @@ const PasswordField = ({
   </div>
 );
 
-export const LoginForm = () => {
+export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const [loginType, setLoginType] = useState<'email' | 'std'>('email');
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -109,8 +113,10 @@ export const LoginForm = () => {
 
       if (loginType === 'email') {
         await signInWithEmail(data.email!, data.password);
+        onSuccess?.();
       } else {
         await signInWithStd(data.std!, data.password);
+        onSuccess?.();
       }
     } catch (err: any) {
       setServerError(err.message || 'Une erreur est survenue. Veuillez réessayer.');
