@@ -1,18 +1,20 @@
 export default function AnnouncementCard() {
-  const myImage = 'https://i.pinimg.com/736x/1b/93/9b/1b939bf10e7c437b01c8eac67a941c84.jpg';
-
   return (
     <>
-      <div className="flex flex-col max-w-[50vw] mx-auto mt-10 gap-5 bg-black text-white text-[12px]">
-        <div className="flex flex-col gap-2 bg-[#16202a] p-4">
+      <div className="flex flex-col max-w-[50vw] mx-auto mt-10 text-white text-[12px] h-[94vh] overflow-y-scroll">
+        <div className="flex flex-col gap-2 bg-[#16202a] p-4 rounded-2xl m-2">
           <div className="flex justify-between items-center">
             <div className="flex gap-1 items-center">
               <div>
-                <i>profile pic</i>
+                <img
+                  src={'https://i.pinimg.com/736x/ce/ea/fb/ceeafb05372c057d07ea3859c1fcfcd3.jpg'}
+                  alt="Profile pic"
+                  className="w-10 rounded-full"
+                />
               </div>
               <div>
-                <h4>User Lastname</h4>
-                <p>2h</p>
+                <h4 className="font-bold">User Lastname</h4>
+                <p className="text-[#7f8a97]">2h</p>
               </div>
             </div>
             <div>
@@ -27,7 +29,7 @@ export default function AnnouncementCard() {
             </p>
           </div>
           <div>
-            <img src={myImage} alt="My Image" />
+            <img src={'https://i.pinimg.com/736x/1b/93/9b/1b939bf10e7c437b01c8eac67a941c84.jpg'} alt="Content" />
           </div>
           <div className="flex justify-between">
             <div className="flex gap-1">
@@ -39,7 +41,8 @@ export default function AnnouncementCard() {
               <p>commentaires</p>
             </div>
           </div>
-          <div className="flex justify-between">
+          <hr className="border-[#2e3238]" />
+          <div className="flex justify-between text-[#0080ff] px-3">
             <div className="flex gap-1">
               <i>heart</i>
               <p>J'aime</p>
@@ -54,15 +57,19 @@ export default function AnnouncementCard() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-2 bg-[#16202a] p-4">
+        <div className="flex flex-col gap-2 bg-[#16202a] p-4 rounded-2xl m-2">
           <div className="flex justify-between items-center">
             <div className="flex gap-1 items-center">
               <div>
-                <i>profile pic</i>
+                <img
+                  src={'https://i.pinimg.com/736x/ce/ea/fb/ceeafb05372c057d07ea3859c1fcfcd3.jpg'}
+                  alt="Profile pic"
+                  className="w-10 rounded-full"
+                />
               </div>
               <div>
-                <h4>User Lastname</h4>
-                <p>2h</p>
+                <h4 className="font-bold">User Lastname</h4>
+                <p className="text-[#7f8a97]">2h</p>
               </div>
             </div>
             <div>
@@ -77,7 +84,7 @@ export default function AnnouncementCard() {
             </p>
           </div>
           <div>
-            <img src={myImage} alt="My Image" />
+            <img src={'https://i.pinimg.com/736x/1b/93/9b/1b939bf10e7c437b01c8eac67a941c84.jpg'} alt="Content" />
           </div>
           <div className="flex justify-between">
             <div className="flex gap-1">
@@ -89,7 +96,8 @@ export default function AnnouncementCard() {
               <p>commentaires</p>
             </div>
           </div>
-          <div className="flex justify-between">
+          <hr className="border-[#2e3238]" />
+          <div className="flex justify-between text-[#0080ff] px-3">
             <div className="flex gap-1">
               <i>heart</i>
               <p>J'aime</p>
