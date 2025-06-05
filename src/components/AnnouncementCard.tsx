@@ -4,10 +4,10 @@ import { faHeart, faComment, faPaperPlane, faEllipsis } from '@fortawesome/free-
 export default function AnnouncementCard() {
   return (
     <>
-      <div className="flex flex-col max-w-[50vw] mx-auto mt-10 text-white text-[12px]">
+      <div className="flex flex-col max-w-[50vw] mx-auto mt-18 text-white text-[12px] gap-5">
         <div className="flex flex-col gap-2 bg-[#16202a] p-4 rounded-2xl m-2">
           <div className="flex justify-between items-center">
-            <div className="flex gap-1 items-center">
+            <div className="flex gap-1 items-center hover:duration-400 hover:scale-110 cursor-pointer">
               <div>
                 <img
                   src={'https://i.pinimg.com/736x/ce/ea/fb/ceeafb05372c057d07ea3859c1fcfcd3.jpg'}
@@ -20,7 +20,10 @@ export default function AnnouncementCard() {
                 <p className="text-[#7f8a97]">2h</p>
               </div>
             </div>
-            <FontAwesomeIcon icon={faEllipsis} className="text-lg" />
+            <FontAwesomeIcon
+              icon={faEllipsis}
+              className="text-lg hover:duration-400 hover:scale-110 cursor-pointer rounded-full hover:border-2 hover:border-[#2e3238] p-2"
+            />
           </div>
           <div>
             <p>
@@ -60,7 +63,7 @@ export default function AnnouncementCard() {
         </div>
         <div className="flex flex-col gap-2 bg-[#16202a] p-4 rounded-2xl m-2">
           <div className="flex justify-between items-center">
-            <div className="flex gap-1 items-center">
+            <div className="flex gap-1 items-center hover:duration-400 hover:scale-110 cursor-pointer">
               <div>
                 <img
                   src={'https://i.pinimg.com/736x/ce/ea/fb/ceeafb05372c057d07ea3859c1fcfcd3.jpg'}
@@ -73,7 +76,10 @@ export default function AnnouncementCard() {
                 <p className="text-[#7f8a97]">2h</p>
               </div>
             </div>
-            <FontAwesomeIcon icon={faEllipsis} className="text-lg" />
+            <FontAwesomeIcon
+              icon={faEllipsis}
+              className="text-lg hover:duration-400 hover:scale-110 cursor-pointer rounded-full hover:border-2 hover:border-[#2e3238] p-2"
+            />
           </div>
           <div>
             <p>
