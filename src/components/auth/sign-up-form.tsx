@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Eye, EyeOff, Check } from 'lucide-react';
-import { signUp } from '@/lib/auth/actions.ts';
+import { signUp } from '@/lib/auth/actions';
 
 type SignupFormProps = {
   onSuccess?: () => void;
@@ -67,7 +67,17 @@ export const SignupForm: FC<SignupFormProps> = ({ onSuccess }) => {
   const onSubmit = async (data: SignupFormData) => {
     setGeneralError('');
     try {
-      await signUp(data.username, data.firstName, data.lastName, data.email, data.password, data.std.toUpperCase());
+      const { needsEmailConfirmation } = await signUp(
+        data.username,
+        data.firstName,
+        data.lastName,
+        data.email,
+        data.password,
+        data.std.toUpperCase()
+      );
+      if (needsEmailConfirmation) {
+        alert('Veuillez checker votre mail pour confirmer votre compte');
+      }
       onSuccess?.();
     } catch (err) {
       console.error('Erreur lors de l’inscription:', err);

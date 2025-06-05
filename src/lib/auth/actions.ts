@@ -7,48 +7,45 @@ export async function signUp(
   email: string,
   password: string,
   std: string
-) {
-  try {
-    const { data: stdCheck } = await supabase.from('dummy_user').select('std').eq('std', std).single();
+): Promise<{ needsEmailConfirmation: boolean }> {
+  const { data: stdCheck } = await supabase.from('dummy-user').select('std').eq('std', std).single();
 
-    if (stdCheck) {
-      throw new Error('This STD is already registered');
-    }
-
-    const { data, error: signUpError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          first_name: firstName,
-          last_name: lastName,
-          display_name: `${firstName} ${lastName}`,
-          std: std.toUpperCase(),
-          username,
-        },
-      },
-    });
-
-    if (signUpError) {
-      throw new Error(`Error while signing up: ${signUpError.message}`);
-    }
-
-    const { error: registerUserInDBerror } = await supabase.from('dummy_user').insert({
-      id: data.user?.id,
-      username,
-      first_name: firstName,
-      last_name: lastName,
-      email,
-      std: std.toUpperCase(),
-    });
-
-    if (registerUserInDBerror) {
-      throw new Error(`Error registering user: ${registerUserInDBerror.message}`);
-    }
-  } catch (error) {
-    console.error('Sign up error:', error);
-    throw error;
+  if (stdCheck) {
+    throw new Error('This STD is already registered');
   }
+
+  const { data, error: signUpError } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        first_name: firstName,
+        last_name: lastName,
+        display_name: `${firstName} ${lastName}`,
+        std: std.toUpperCase(),
+        username,
+      },
+    },
+  });
+
+  if (signUpError) {
+    throw new Error(`Error while signing up: ${signUpError.message}`);
+  }
+
+  const { error: registerUserInDBerror } = await supabase.from('dummy-user').insert({
+    id: data.user?.id,
+    username,
+    first_name: firstName,
+    last_name: lastName,
+    email,
+    std: std.toUpperCase(),
+  });
+
+  if (registerUserInDBerror) {
+    throw new Error(`Error registering user: ${registerUserInDBerror.message}`);
+  }
+
+  return { needsEmailConfirmation: data?.user?.email_confirmed_at === null };
 }
 
 export async function signInWithEmail(email: string, password: string) {
