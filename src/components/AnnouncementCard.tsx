@@ -1,7 +1,10 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faComment, faPaperPlane, faEllipsis } from '@fortawesome/free-solid-svg-icons';
+
 export default function AnnouncementCard() {
   return (
     <>
-      <div className="flex flex-col max-w-[50vw] mx-auto mt-10 text-white text-[12px] h-[94vh] overflow-y-scroll">
+      <div className="flex flex-col max-w-[50vw] mx-auto mt-10 text-white text-[12px]">
         <div className="flex flex-col gap-2 bg-[#16202a] p-4 rounded-2xl m-2">
           <div className="flex justify-between items-center">
             <div className="flex gap-1 items-center">
@@ -17,9 +20,7 @@ export default function AnnouncementCard() {
                 <p className="text-[#7f8a97]">2h</p>
               </div>
             </div>
-            <div>
-              <i>3dots</i>
-            </div>
+            <FontAwesomeIcon icon={faEllipsis} className="text-lg" />
           </div>
           <div>
             <p>
@@ -42,17 +43,17 @@ export default function AnnouncementCard() {
             </div>
           </div>
           <hr className="border-[#2e3238]" />
-          <div className="flex justify-between text-[#0080ff] px-3">
-            <div className="flex gap-1">
-              <i>heart</i>
+          <div className="flex justify-between text-[#0080ff] px-3 items-center">
+            <div className="flex gap-1  hover:text-red-500 hover:cursor-pointer hover:duration-400 hover:scale-110 hover:font-bold">
+              <FontAwesomeIcon icon={faHeart} className="text-lg" />
               <p>J'aime</p>
             </div>
-            <div className="flex gap-1">
-              <i>message</i>
+            <div className="flex gap-1 hover:cursor-pointer hover:text-white hover:duration-400 hover:scale-110 hover:font-bold">
+              <FontAwesomeIcon icon={faComment} className="text-lg" />
               <p>Commenter</p>
             </div>
-            <div className="flex gap-1">
-              <i>paper-plane</i>
+            <div className="flex gap-1 hover:cursor-pointer hover:text-white hover:duration-400 hover:scale-110 hover:font-bold">
+              <FontAwesomeIcon icon={faPaperPlane} className="text-lg" />
               <p>Partager</p>
             </div>
           </div>
@@ -72,9 +73,7 @@ export default function AnnouncementCard() {
                 <p className="text-[#7f8a97]">2h</p>
               </div>
             </div>
-            <div>
-              <i>3dots</i>
-            </div>
+            <FontAwesomeIcon icon={faEllipsis} className="text-lg" />
           </div>
           <div>
             <p>
@@ -97,17 +96,17 @@ export default function AnnouncementCard() {
             </div>
           </div>
           <hr className="border-[#2e3238]" />
-          <div className="flex justify-between text-[#0080ff] px-3">
-            <div className="flex gap-1">
-              <i>heart</i>
+          <div className="flex justify-between text-[#0080ff] px-3 items-center">
+            <div className="flex gap-1 hover:text-red-500 hover:cursor-pointer hover:duration-400 hover:scale-110 hover:font-bold">
+              <FontAwesomeIcon icon={faHeart} className="text-lg" />
               <p>J'aime</p>
             </div>
-            <div className="flex gap-1">
-              <i>message</i>
+            <div className="flex gap-1 hover:cursor-pointer hover:text-white hover:duration-400 hover:scale-110 hover:font-bold">
+              <FontAwesomeIcon icon={faComment} className="text-lg" />
               <p>Commenter</p>
             </div>
-            <div className="flex gap-1">
-              <i>paper-plane</i>
+            <div className="flex gap-1 hover:cursor-pointer hover:text-white hover:duration-400 hover:scale-110 hover:font-bold">
+              <FontAwesomeIcon icon={faPaperPlane} className="text-lg" />
               <p>Partager</p>
             </div>
           </div>
