@@ -7,7 +7,7 @@ export default function SideMessage() {
       <div className="w-7">
         <FontAwesomeIcon icon={faMessage} className="text-xl" />
       </div>
-      <p className="text-xl ">Messages</p>
+      <p className="text-lg ">Messages</p>
     </div>
   );
 }
