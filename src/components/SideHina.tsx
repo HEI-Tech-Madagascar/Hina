@@ -7,7 +7,7 @@ export default function SideHina() {
       <div className="w-7">
         <FontAwesomeIcon icon={faHouse} className="text-xl" />
       </div>
-      <p className="text-xl">Hina</p>
+      <p className="text-lg">Hina</p>
     </div>
   );
 }

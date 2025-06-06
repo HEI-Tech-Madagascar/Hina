@@ -7,7 +7,7 @@ export default function SideVieDuClub() {
       <div className="w-7">
         <FontAwesomeIcon icon={faUserGroup} className="text-xl" />
       </div>
-      <p className="text-xl ">Vie du club</p>
+      <p className="text-lg">Vie du club</p>
     </div>
   );
 }

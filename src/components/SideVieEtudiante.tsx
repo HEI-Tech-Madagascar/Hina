@@ -7,7 +7,7 @@ export default function SideVieEtudiante() {
       <div className="w-7">
         <FontAwesomeIcon icon={faCalendar} className="text-xl" />
       </div>
-      <p className="text-xl ">Vie Etudiante</p>
+      <p className="text-lg ">Vie Etudiante</p>
     </div>
   );
 }
