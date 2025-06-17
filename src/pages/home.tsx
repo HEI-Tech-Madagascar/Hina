@@ -1,3 +1,15 @@
+import HomeHeader from '../components/HomeHeader';
+import SideBar from '../components/SideBar';
+import AnnouncementCard from '../components/AnnouncementCard';
+
 export const Home = () => {
-  return <h1>Home</h1>;
+  return (
+    <div className="bg-[#171a1f] flex flex-col">
+      <HomeHeader />
+      <div>
+        <SideBar />
+        <AnnouncementCard />
+      </div>
+    </div>
+  );
 };
