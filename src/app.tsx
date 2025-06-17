@@ -1,11 +1,12 @@
 import { BrowserRouter, Route, Routes } from 'react-router';
-import { Auth, Home } from '@/pages';
+import { Auth, Home, LandingPage, NotFoundPage } from '@/pages';
 import { ProtectedRoute } from '@/components/protected-route';
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<LandingPage />} />
         <Route path="/auth" element={<Auth />} />
         <Route
           path="/home"
@@ -15,6 +16,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
