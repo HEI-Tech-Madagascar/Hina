@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
-export default function Searchbar() {
+export default function SearchBar() {
   return (
     <>
       <form action="" className="flex  rounded-3xl overflow-hidden h-8 w-100 items-center ">
