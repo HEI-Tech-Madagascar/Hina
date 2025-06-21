@@ -8,6 +8,10 @@ export { default as RegisterForm } from './auth/register-form';
 
 export { default as Sidebar } from './common/sidebar';
 export { default as Topbar } from './common/topbar';
+export { default as PostCard } from './common/post-card';
+export { default as HomeStats } from './common/home-stats';
+export { default as ComingEvent } from './common/coming-event';
+export { default as SpeedActions } from './common/speed-actions';
 
 export * from './ui/card';
 export * from './ui/tabs';
