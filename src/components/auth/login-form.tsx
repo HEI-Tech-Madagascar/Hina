@@ -21,6 +21,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type LoginData, loginSchema } from '@/components/auth/utils/login-schema';
 import { signInWithEmail, signInWithStd } from '@/lib/supabase/auth';
+import { MoonLoader } from 'react-spinners';
 
 const EmailField = ({ register, error, disabled }: any) => (
   <div className="space-y-2">
@@ -166,7 +167,7 @@ export default function LoginForm() {
                 className="from-azure-500 to-ocean-500 hover:from-azure-600 hover:to-ocean-600 w-full bg-gradient-to-r py-2.5 text-white transition-all duration-200"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Connexion...' : 'Se connecter'}
+                {isSubmitting ? <MoonLoader size={18} color="white" /> : 'Se connecter'}
               </Button>
             </form>
           </Tabs>

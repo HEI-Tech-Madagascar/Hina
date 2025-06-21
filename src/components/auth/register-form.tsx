@@ -17,6 +17,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { signUp } from '@/lib/supabase/auth';
 import { toast } from 'sonner';
+import { MoonLoader } from 'react-spinners';
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -207,14 +208,7 @@ export default function RegisterForm() {
               className="from-azure-500 to-ocean-500 w-full bg-gradient-to-r py-2.5 text-white"
               disabled={isSubmitting}
             >
-              {isSubmitting ? (
-                <div className="flex items-center gap-2">
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                  Inscription...
-                </div>
-              ) : (
-                'Créer mon compte'
-              )}
+              {isSubmitting ? <MoonLoader size={18} color="white" /> : 'Créer mon compte'}
             </Button>
           </form>
         </CardContent>
