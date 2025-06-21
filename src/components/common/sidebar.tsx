@@ -1,6 +1,7 @@
 import { LogOut, X } from 'lucide-react';
 import { navigation } from '@/constants';
 import { MoonLoader } from 'react-spinners';
+import { useNavigate } from 'react-router';
 
 type SidebarProps = {
   isSidebarOpen: boolean;
@@ -19,6 +20,8 @@ export default function Sidebar({
   currentPage,
   isLoading,
 }: SidebarProps) {
+  const navigate = useNavigate();
+
   return (
     <>
       {isSidebarOpen && (
@@ -58,6 +61,7 @@ export default function Sidebar({
                 onClick={() => {
                   onPageChange(item.id);
                   setIsSidebarOpen(false);
+                  navigate(`/app/${item.path}`);
                 }}
                 className={`mb-1 flex w-full cursor-pointer items-center rounded-lg px-3 py-3 text-sm font-medium transition-colors ${
                   isActive
