@@ -6,6 +6,8 @@ export { default as HeroSection } from './auth/hero-section';
 export { default as LoginForm } from './auth/login-form';
 export { default as RegisterForm } from './auth/register-form';
 
+export { default as Sidebar } from './common/sidebar';
+
 export * from './ui/card';
 export * from './ui/tabs';
 export * from './ui/input';
