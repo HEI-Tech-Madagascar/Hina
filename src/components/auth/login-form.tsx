@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertDescription,
   Button,
   Card,
   CardContent,
@@ -11,30 +13,14 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@/components/ui';
-import { Eye, EyeOff, Mail, User } from 'lucide-react';
+} from '@/components';
 import { useState } from 'react';
+import { Eye, EyeOff, Mail, User } from 'lucide-react';
+import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signInWithEmail, signInWithStd } from '@/lib/auth/actions';
-
-type LoginFormProps = {
-  onSuccess?: () => void;
-};
-
-const loginSchema = z
-  .object({
-    email: z.string().email('Email invalide').optional(),
-    std: z.string().min(3, 'STD invalide').optional(),
-    password: z.string().min(6, 'Mot de passe trop court'),
-  })
-  .refine((data) => data.email || data.std, {
-    message: 'Email ou STD requis',
-    path: ['email'],
-  });
-
-type LoginFormValues = z.infer<typeof loginSchema>;
+import { type LoginData, loginSchema } from '@/components/auth/utils/login-schema';
+import { signInWithEmail, signInWithStd } from '@/lib/supabase/auth';
 
 const EmailField = ({ register, error, disabled }: any) => (
   <div className="space-y-2">
@@ -79,30 +65,33 @@ const PasswordField = ({
       <button
         type="button"
         onClick={toggle}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+        className="absolute top-1/2 right-3 -translate-y-1/2 text-slate-400 hover:text-slate-600"
       >
-        {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+        {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
       </button>
     </div>
     {error && <p className="text-xs text-red-600">{error.message}</p>}
   </div>
 );
 
-export const LoginForm = ({ onSuccess }: LoginFormProps) => {
+export default function LoginForm() {
   const [loginType, setLoginType] = useState<'email' | 'std'>('email');
   const [showPassword, setShowPassword] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
+  const [generalError, setGeneralError] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormValues>({
+  } = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (data: LoginFormValues) => {
-    setServerError(null);
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: LoginData) => {
+    setGeneralError(null);
+
     try {
       if (loginType === 'email' && !data.email) {
         throw new Error('Adresse email requise');
@@ -111,54 +100,55 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
         throw new Error('Identifiant STD requis');
       }
 
+      let user;
       if (loginType === 'email') {
-        await signInWithEmail(data.email!, data.password);
-        onSuccess?.();
+        user = await signInWithEmail(data.email!, data.password);
       } else {
-        await signInWithStd(data.std!, data.password);
-        onSuccess?.();
+        user = await signInWithStd(data.std!, data.password);
+      }
+
+      if (user) {
+        navigate('/app');
+      } else {
+        throw new Error('Échec de la connexion');
       }
     } catch (err: any) {
-      setServerError(err.message || 'Une erreur est survenue. Veuillez réessayer.');
+      setGeneralError(err.message || 'Une erreur est survenue. Veuillez réessayer.');
     }
   };
 
   return (
     <section className="animate-slide-in-left">
-      <Card className="w-full max-w-md mx-auto shadow-xl border-0 bg-white/95 backdrop-blur-sm">
+      <Card className="mx-auto w-full max-w-full border-0 bg-white/95 shadow-xl backdrop-blur-sm">
         <CardHeader className="space-y-1 pb-4">
-          <CardTitle className="text-2xl font-bold text-center bg-gradient-to-r from-azure-600 to-ocean-600 bg-clip-text text-transparent">
+          <CardTitle className="from-azure-600 to-ocean-600 bg-gradient-to-r bg-clip-text text-center text-2xl font-bold text-transparent">
             Connexion
           </CardTitle>
           <CardDescription className="text-center text-slate-600">Accédez à votre compte étudiant</CardDescription>
         </CardHeader>
-
-        <CardContent className="space-y-4">
-          <Tabs value={loginType} onValueChange={(v) => setLoginType(v as 'email' | 'std')} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-4 bg-slate-100">
+        <CardContent>
+          <Tabs value={loginType} onValueChange={(value) => setLoginType(value as 'email' | 'std')} className="w-full">
+            <TabsList className="mb-4 grid w-full grid-cols-2 bg-slate-100">
               <TabsTrigger value="email" className="data-[state=active]:bg-azure-500 data-[state=active]:text-white">
-                <Mail className="w-4 h-4 mr-2" />
+                <Mail className="mr-2 h-4 w-4" />
                 Email
               </TabsTrigger>
               <TabsTrigger value="std" className="data-[state=active]:bg-azure-500 data-[state=active]:text-white">
-                <User className="w-4 h-4 mr-2" />
+                <User className="mr-2 h-4 w-4" />
                 STD
               </TabsTrigger>
             </TabsList>
-
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               {loginType === 'email' && (
                 <TabsContent value="email">
                   <EmailField register={register} error={errors.email} disabled={isSubmitting} />
                 </TabsContent>
               )}
-
               {loginType === 'std' && (
                 <TabsContent value="std">
                   <StdField register={register} error={errors.std} disabled={isSubmitting} />
                 </TabsContent>
               )}
-
               <PasswordField
                 register={register}
                 error={errors.password}
@@ -166,24 +156,36 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
                 show={showPassword}
                 toggle={() => setShowPassword((s) => !s)}
               />
-
-              {serverError && <p className="text-xs text-red-600 text-center">{serverError}</p>}
-
+              {generalError && (
+                <Alert className="animate-fade-in border-red-200 bg-red-50">
+                  <AlertDescription className="text-red-700">{generalError}</AlertDescription>
+                </Alert>
+              )}
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-azure-500 to-ocean-500 hover:from-azure-600 hover:to-ocean-600 text-white py-2.5 transition-all duration-200"
+                className="from-azure-500 to-ocean-500 hover:from-azure-600 hover:to-ocean-600 w-full bg-gradient-to-r py-2.5 text-white transition-all duration-200"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? 'Connexion...' : 'Se connecter'}
               </Button>
             </form>
           </Tabs>
-
-          <div className="text-center">
-            <button className="text-sm text-azure-600 hover:underline">Mot de passe oublié ?</button>
-          </div>
         </CardContent>
+        <a href="/forget-password" className="text-azure-600 text-center text-sm hover:underline">
+          Mot de passe oublié ?
+        </a>
+        <div className="animate-fade-in space-y-3 text-center">
+          <div className="mx-auto h-px w-16 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
+          <p className="text-sm text-slate-600">Vous n'avez pas de compte ?</p>
+          <Button
+            onClick={() => navigate('/register')}
+            variant="ghost"
+            className="text-azure-600 hover:text-azure-700 hover:bg-azure-50 font-medium transition-all duration-200"
+          >
+            Créer un compte
+          </Button>
+        </div>
       </Card>
     </section>
   );
-};
+}

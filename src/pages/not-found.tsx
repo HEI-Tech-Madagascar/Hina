@@ -1,3 +1,3 @@
-export const NotFoundPage = () => {
-  return <h1>Ooops, 404 not found! This page does not exists</h1>;
-};
+export default function NotFound() {
+  return <h1 className="font-poppins">404 - Not found</h1>;
+}
