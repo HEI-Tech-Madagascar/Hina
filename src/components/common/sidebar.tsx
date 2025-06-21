@@ -3,7 +3,7 @@ import { navigation } from '@/constants';
 import { MoonLoader } from 'react-spinners';
 import { useNavigate } from 'react-router';
 
-type SidebarProps = {
+export type SidebarProps = {
   isSidebarOpen: boolean;
   setIsSidebarOpen: (isOpen: boolean) => void;
   currentPage: string;

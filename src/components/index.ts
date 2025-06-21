@@ -7,6 +7,7 @@ export { default as LoginForm } from './auth/login-form';
 export { default as RegisterForm } from './auth/register-form';
 
 export { default as Sidebar } from './common/sidebar';
+export { default as Topbar } from './common/topbar';
 
 export * from './ui/card';
 export * from './ui/tabs';
