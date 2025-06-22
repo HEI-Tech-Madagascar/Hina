@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router';
 import { HeiTech } from '@/assets';
-import { RightPanelDescription } from '@/components';
+import { DarkModeToggle, RightPanelDescription } from '@/components';
 
 export default function AuthLayout() {
   return (
@@ -13,6 +13,9 @@ export default function AuthLayout() {
         </div>
         <RightPanelDescription />
       </article>
+      <div className="absolute right-5 bottom-5 z-10 rounded-full bg-white">
+        <DarkModeToggle />
+      </div>
     </main>
   );
 }

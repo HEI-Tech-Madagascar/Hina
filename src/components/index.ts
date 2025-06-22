@@ -1,6 +1,7 @@
 export { default as PrivateRoute } from './private-route';
 export { default as NotImplemented } from './not-implemented';
 export { default as DarkModeToggle } from './dark-mode-toggle';
+export { default as Loading } from './loading';
 
 export { default as RightPanelDescription } from './auth/righ-panel-description';
 export { default as HeroSection } from './auth/hero-section';

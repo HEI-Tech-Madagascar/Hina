@@ -13,7 +13,7 @@ export default function AuthFormLayout({ children }: { children: ReactNode }) {
             Conditions d'utilisation
           </button>
           <span>et notre</span>
-          <button className="hover:text-azure-600 underline-offset-2 transition-colors hover:underline">
+          <button className="hover:text-azure-600 dark:hover:text-ocean-500 cursor-pointer underline-offset-2 transition-colors hover:underline">
             Politique de confidentialité
           </button>
         </div>
