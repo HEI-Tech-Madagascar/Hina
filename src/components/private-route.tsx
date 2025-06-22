@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from 'react-router';
 import { useEffect, useState } from 'react';
 import { getSession } from '@/lib/supabase/auth';
+import { Loading } from '@/components/index';
 
 export default function PrivateRoute() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -12,7 +13,7 @@ export default function PrivateRoute() {
   }, []);
 
   if (isAuthenticated === null) {
-    return <div>Chargement...</div>;
+    return <Loading />;
   }
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;

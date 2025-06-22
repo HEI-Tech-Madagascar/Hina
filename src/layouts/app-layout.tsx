@@ -23,7 +23,7 @@ export default function AppLayout() {
   };
 
   return (
-    <section className="font-poppins flex h-screen overflow-hidden bg-gray-50">
+    <section className="font-poppins flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900">
       <Sidebar
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
