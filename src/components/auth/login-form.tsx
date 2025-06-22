@@ -120,16 +120,18 @@ export default function LoginForm() {
 
   return (
     <section className="animate-slide-in-left">
-      <Card className="mx-auto w-full max-w-full border-0 bg-white/95 shadow-xl backdrop-blur-sm">
+      <Card className="mx-auto w-full max-w-full border-0 bg-white/95 shadow-xl backdrop-blur-sm dark:border-gray-700 dark:bg-gray-800">
         <CardHeader className="space-y-1 pb-4">
           <CardTitle className="from-azure-600 to-ocean-600 bg-gradient-to-r bg-clip-text text-center text-2xl font-bold text-transparent">
             Connexion
           </CardTitle>
-          <CardDescription className="text-center text-slate-600">Accédez à votre compte étudiant</CardDescription>
+          <CardDescription className="text-center text-slate-600 dark:text-white">
+            Accédez à votre compte étudiant
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs value={loginType} onValueChange={(value) => setLoginType(value as 'email' | 'std')} className="w-full">
-            <TabsList className="mb-4 grid w-full grid-cols-2 bg-slate-100">
+            <TabsList className="mb-4 grid w-full grid-cols-2 bg-slate-100 dark:bg-gray-700">
               <TabsTrigger value="email" className="data-[state=active]:bg-azure-500 data-[state=active]:text-white">
                 <Mail className="mr-2 h-4 w-4" />
                 Email
@@ -164,7 +166,7 @@ export default function LoginForm() {
               )}
               <Button
                 type="submit"
-                className="from-azure-500 to-ocean-500 hover:from-azure-600 hover:to-ocean-600 w-full bg-gradient-to-r py-2.5 text-white transition-all duration-200"
+                className="from-azure-500 to-ocean-500 hover:from-azure-600 hover:to-ocean-600 w-full cursor-pointer bg-gradient-to-r py-2.5 text-white transition-all duration-200"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? <MoonLoader size={18} color="white" /> : 'Se connecter'}
@@ -172,16 +174,16 @@ export default function LoginForm() {
             </form>
           </Tabs>
         </CardContent>
-        <a href="/forget-password" className="text-azure-600 text-center text-sm hover:underline">
+        <a href="/forget-password" className="text-azure-600 dark:text-ocean-500 text-center text-sm hover:underline">
           Mot de passe oublié ?
         </a>
         <div className="animate-fade-in space-y-3 text-center">
           <div className="mx-auto h-px w-16 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
-          <p className="text-sm text-slate-600">Vous n'avez pas de compte ?</p>
+          <p className="text-sm text-slate-600 dark:text-white">Vous n'avez pas de compte ?</p>
           <Button
             onClick={() => navigate('/register')}
             variant="ghost"
-            className="text-azure-600 hover:text-azure-700 hover:bg-azure-50 font-medium transition-all duration-200"
+            className="text-azure-600 dark:text-ocean-500 hover:text-azure-700 hover:bg-azure-50 cursor-pointer font-medium transition-all duration-200"
           >
             Créer un compte
           </Button>

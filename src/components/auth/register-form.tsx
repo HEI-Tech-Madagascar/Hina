@@ -94,12 +94,14 @@ export default function RegisterForm() {
 
   return (
     <section className="animate-slide-in-right">
-      <Card className="mx-auto w-full max-w-full border-0 bg-white/95 shadow-xl backdrop-blur-sm">
+      <Card className="mx-auto w-full max-w-full border-0 bg-white/95 shadow-xl backdrop-blur-sm dark:border-gray-700 dark:bg-gray-800">
         <CardHeader className="space-y-1 pb-4">
           <CardTitle className="from-azure-600 to-ocean-600 bg-gradient-to-r bg-clip-text text-center text-2xl font-bold text-transparent">
             Inscription
           </CardTitle>
-          <CardDescription className="text-center text-slate-600">Créez votre compte étudiant</CardDescription>
+          <CardDescription className="text-center text-slate-600 dark:text-white">
+            Créez votre compte étudiant
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -145,7 +147,7 @@ export default function RegisterForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute top-1/2 right-3 -translate-y-1/2 text-slate-400"
+                  className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-slate-400"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -190,7 +192,7 @@ export default function RegisterForm() {
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="text-slate-400"
+                    className="cursor-pointer text-slate-400"
                   >
                     {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -205,7 +207,7 @@ export default function RegisterForm() {
             )}
             <Button
               type="submit"
-              className="from-azure-500 to-ocean-500 w-full bg-gradient-to-r py-2.5 text-white"
+              className="from-azure-500 to-ocean-500 w-full cursor-pointer bg-gradient-to-r py-2.5 text-white"
               disabled={isSubmitting}
             >
               {isSubmitting ? <MoonLoader size={18} color="white" /> : 'Créer mon compte'}

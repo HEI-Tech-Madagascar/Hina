@@ -7,7 +7,7 @@ export default function HeroSection() {
       <h1 className="from-azure-600 to-ocean-600 mb-2 bg-gradient-to-r bg-clip-text text-3xl font-bold text-transparent">
         Hina by HEI Tech
       </h1>
-      <p className="text-sm text-slate-600">Plateforme étudiante moderne</p>
+      <p className="text-sm text-slate-600 dark:text-white">Plateforme étudiante moderne</p>
     </div>
   );
 }

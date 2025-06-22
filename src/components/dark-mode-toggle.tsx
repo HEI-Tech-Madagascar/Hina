@@ -7,7 +7,7 @@ export default function DarkModeToggle() {
   return (
     <button
       onClick={toggleDarkMode}
-      className="group relative rounded-full p-2 transition-all duration-300 hover:bg-gray-100"
+      className="group relative cursor-pointer rounded-full p-2 transition-all duration-300 hover:bg-gray-100"
       aria-label={isDarkMode ? 'Activer le mode clair' : 'Activer le mode sombre'}
     >
       <div className="relative h-5 w-5">
